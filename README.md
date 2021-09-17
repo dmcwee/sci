@@ -2,14 +2,14 @@
 This repo contains the master version of the Security, Compliance, and Identiy materials for the Challenge based OpenHack content. 
 
 # Repo Structure
-* **portal** (English-language variant)
-    * **en**
+* **challenges** (English-language variant)
+    * [**en**](https://github.com/dmcwee/sci/tree/master/challenges/en)
         * Markdown files for challenges in the OpenHack portal
         * JSON file defining lab structure for Opsgility portal
 * **resources**
-    * Coaches guide
-    * Coach and participant topic deck
-    * 1-pager
+    * [Coaches guide](https://github.com/dmcwee/sci/blob/master/resources/coaches-guide.md)
+    * [Coach and participant topic deck](https://github.com/dmcwee/sci/blob/master/resources/SCI_Tech%20Scenario_Attendee_Coach_Deck.pptx?raw=true)
+    * [1-pager](https://github.com/dmcwee/sci/blob/master/resources/SCI%20-%20OH%20One%20Pager.docx?raw=true)
     * Additional resources for coaches and OpenHack stakeholders
     * **solutions**
         * validated solution code for challenges
