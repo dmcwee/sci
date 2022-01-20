@@ -9,7 +9,7 @@
 
 ## Challenge
 
-In this challenge your team will collect a list of assets found in Microsoft Azure and Microsoft 365 that your team can use to assist in the discovery of security and compliance risks. You can use tools like the FastTrack Docs Modernise Security and Defend against Threats to help you identify potential tools and topics to discuss with the customer. You may find some value in deployment workshops and presentations, but do not get stuck too deeply into these items for this challenge. 
+In this challenge your team will collect a list of assets found in Microsoft Azure and Microsoft 365 that your team can use to assist in the discovery of security and compliance risks. You can use tools and concepts from the FastTrack Playbook like [Modernise Security and Defend against Threats](https://fasttrack-docs.microsoft.com/playbook/modernize-security.html) or [Build Zero Trust Foundations](https://fasttrack-docs.microsoft.com/playbook/zero-trust-foundations.html) to help you identify potential tools and topics to discuss with the customer. You may find some value in deployment workshops and presentations, but assume kick-offs have been performed and the customer is aware of our technologies so look to provide impactful guidance and recommendations.
 
 Be sure to focus on the available tools the company has access to in their Office 365 E5 and EMS E5 subscriptions. The CIO wants to stay with Microsoft products at this time and would also like to leverage available trial products specifically for proof-of-concept projects. The team should include other Microsoft related security, compliance, and identity products in the list even if there is no subscription currently deployed.
 
