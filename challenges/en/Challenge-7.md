@@ -32,9 +32,7 @@ A feature of Microsoft Defender for Endpoint is the ability to perform advanced 
 
 The team must also create a query that can find the top 100 PowerShell execution events. And another query to answer: what parent process started net.exe?
 
-As you recall, your team enabled Azure Sentinel and deployed several connectors used to collect signals from different sources. One of those connectors is linked to the Azure Security Center. The CISO wants to see an example of a proactive monitoring solution that can notify the SecOps team if an incident occurs. The team must set up a basic automated threat response in Azure Sentinel. This response must send a notification email to all team members whenever there is a threat detected in Azure Security Center.  
-
-The CIO has an interest in Microsoft’s Cloud App Security product and how it can be used in discovering and providing visibility into Shadow IT and app use and to monitor user activities for anomalous behaviors. In preparation for the planned pilot of Cloud App Security, the team should create a new Microsoft Security Analytics rule in Azure Sentinel. This rule should use the Microsoft Cloud App Security service and monitor for any high or medium severity alert.
+The CIO has an interest in Microsoft’s Defender for Cloud Applications (MDCA) product and how it can be used in discovering and providing visibility into Shadow IT and app use and to monitor user activities for anomalous behaviors. In preparation for the planned pilot of MDCA, the team should ensure that MDE and MDCA are configured to share data and application policies.
 
 ## Success Criteria  
 
@@ -44,9 +42,7 @@ The CIO has an interest in Microsoft’s Cloud App Security product and how it c
 
 - Create an advanced hunting query.
 
-- Create an Azure Playbook.
-
-- Create an Azure Sentinel Analytics rule.
+- Enable MDE and MDCA telemetry integration.
 
 Your coach will discuss your assessment before you move on to the next challenge.
 
