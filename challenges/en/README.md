@@ -6,3 +6,10 @@ Challenges are designed to be similar to a customer's scenario.  The material sh
 1. **Challenge 6** - Remove as this challenge is only focused on Azure solutions
 1. **Challenge 7** - Remove Sentinel integration/component
 1. **Challenge 9** - Remove the Sentinel integration
+
+## TODO ##
+- [X] **Challenge 3** Remove Azure Security Center tasks and measures.
+- [ ] **Challenge 3** Add more M365 Compliance considerations to this scenario.  Things like Endpoint DLP settings, email tool tips, etc. may be more useful.
+- [X] **Challenge 7** Remove Sentinel references
+- [ ] **Challenge 7** Add more Defender for Endpoint scenarios/cases to this 
+- [ ] **Challenge 9** Remove the Sentinel integration
