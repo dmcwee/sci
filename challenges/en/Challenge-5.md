@@ -10,11 +10,11 @@
 
 ## Challenge
 
-Contoso Mortgage has already taken steps to protect privileged access by adding multi-factor authentication (MFA) to administrator accounts. Additionally, all accounts should already have MFA enabled. The CIO wants to increase the identity security be enforcing MFA in certain circumstances. This will mean that each user will be treated differently during authentication based on their function or permission level in the business.
+Contoso Mortgage has already taken steps to protect privileged access by adding multi-factor authentication (MFA) to administrator accounts. Additionally, all accounts should already have MFA enabled. The CIO wants to increase the identity security by enforcing MFA in certain circumstances. This will mean that each user will be treated differently during authentication based on their function or permission level in the business.
 
 Your team has been directed to enhance the protection of your users' identities and limit the use of privileged accounts.
 
-Initially Contoso Mortgage will experiment with two user classifications based on the user's level of access to sensitive data and systems. Members of the "Financial System Access" group have access to sensitive financial data and will only be allowed to sign on from known office locations. Additionally, members of the "General Staff" group can sign in from anywhere, but MFA will be required when they are not signing in from a trusted location. To be sure the policies are properly configured, you should test the policies using the members of the groups who have volunteered to assist.
+Initially Contoso Mortgage will experiment with two user classifications based on the user's level of access to sensitive data and systems. Members of the "Sales" department have access to sensitive financial data and will only be allowed to sign on from known office locations. Additionally, members of the "Engineering" department can sign in from anywhere, but MFA will be required when they are not signing in from a trusted location. To be sure the policies are properly configured, you should test the policies using the members of the groups who have volunteered to assist.
 
 To protect the employee’s identity even more, the team must configure user and sign-in risk policies. When there is a medium or high likelihood that a user account has been compromised, the user will be required to change their password. When there is a medium or high likelihood that a sign-in is coming from someone other than the user, the user will be required to use MFA.
 
@@ -24,27 +24,27 @@ During the company’s migration to their cloud-only model, many accounts were c
 
 - The following users have volunteered to help the team:
 
-    - General Staff: Larry
+    - Engineering Staff: Johanna Lorenz
 
-    - Financial System Access: Katie
+    - Sales & Marketing: Miriam Graham
 
-    - Julian has volunteered to have their previously permanent privileged access role of "Password Administrator" be assigned only when needed.
+    - Nestor Wilke has volunteered to have their previously permanent privileged access role of "Global Administrator" removed and given "Password Administrator" only when needed.
 
-    - Use the public IP address of a team member to populate office trusted location. You may choose to use the public IP address of multiple team members but keep one unused or use a VPN to simulate an unknown location.  
+    - Use the [public IP address of a team member](https://www.whatsmyip.org/) to populate office trusted location. You may choose to use the public IP address of multiple team members but keep one unused or use a VPN to simulate an unknown location.  
 
 ## Success Criteria  
 
 - Correctly configure a trusted location identified by IP address(es).
 
-- Create conditional access policies for Financial Systems Access and General Staff groups that will grant access based on their locations.
+- Create conditional access policies for *Sales* and *Engineering* groups that will grant access based on their locations.
 
-- Test the ability for a member of the “Financial Systems Access" to successfully authenticate or fail to authenticate based on location.
+- Test the ability for a member of the *Sales* to successfully authenticate or fail to authenticate based on location.
 
-- Test the ability for a member of the “General Staff" group to sign in.
+- Test the ability for a member of the *Engineering* group to sign in.
 
 - Users are forced to change their password if their sign in risk level is identified as Medium or High.
 
-- Julian must be able to elevate her privilege to "Password Administrator" and, while she uses this elevated role, she must be forced to use MFA.
+- Nestor must not be able to get *Global Admin* rights, but can elevate their privilege to "Password Administrator" and, while elevating their role, they must be forced to use MFA.
 
 Your coach will discuss your assessment before you move on to the next challenge.
 
