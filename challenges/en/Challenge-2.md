@@ -21,8 +21,6 @@ In this challenge your team will identify the first 10-15 improvement actions fo
 
 - Employees must be allowed to reset their own passwords.
 
-The company is also upgrading from the Azure Security center free tier to Azure Defender. Because of this, the team must be sure Azure Defender is turned on and enabled. Also, that Azure Defender has been upgraded and agents are set to be installed automatically to virtual machines.
-
 The CIO is currently working with vendors who will be helping evaluate the security team’s readiness to protect the company’s assets. To prepare, the CISO needs the team to deploy a Microsoft Defender for Endpoint evaluation lab environment. The environment must be available for 72 hours after deployment to complete a proof-of-concept using SafeBreach to simulate scripted attacks in preparation for an upcoming "Red team" exercise. The evaluation lab should have one Windows 10 virtual machine and one Windows Server 2019 virtual machine deployed. The CIO wants these virtual machines deployed now so they will be ready when the evaluation begins. There is no need to wait for them to complete deployment.
 
 When the company first deployed their Office 365 subscription, Office 365 E5 and Enterprise Mobility + Security E5 licenses were purchased and assigned to the user accounts. The CEO and CIO have determined that the company will migrate all users to Microsoft 365 E5 licenses. This will give the company’s employees all the current licensing features and add more benefits as well as adding additional security and compliance protections. While the paperwork is being finalized, the CISO has been authorized to sign up for trial licenses. The team needs to start the free trial of Microsoft 365 E5. Then the team will replace the Office 365 E5 and EMS E5 licenses with the Microsoft 365 E5 license for all users and assign a Microsoft 365 E5 license to any account that does not current have an assigned license.
@@ -54,13 +52,10 @@ Contoso Mortgage has the following additional requirements:
 Your coach will discuss your assessment before you move on to the next challenge.
 
 ## References
-- <a href="https://docs.microsoft.com/azure/security-center" target="_blank">Secure score in Azure Security Center</a>
 
 - <a href="https://docs.microsoft.com/microsoft-365/security/mtp/microsoft-secure-score?view=o365-worldwide#how-it-works" target="_blank">Microsoft Secure Score</a>
 
 - <a href="https://docs.microsoft.com/microsoft-365/security/office-365-security/office-365-atp?view=o365-worldwide" target="_blank">Microsoft Defender for Office 365</a>
-
-- <a href="https://docs.microsoft.com/azure/security-center/azure-defender" target="_blank"> Introduction to Azure Defender</a>
 
 - <a href="https://docs.microsoft.com/windows/security/threat-protection/microsoft-defender-atp/evaluation-lab" target="_blank">Microsoft Defender for Endpoint evaluation lab</a>
 
