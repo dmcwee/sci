@@ -13,3 +13,8 @@ You can stand up your own environment to run thought the various challenges. Thi
 ## Make access to your tenant easier
 1. Create a Profile in your Edge browser for your Admin account so you can easily save passwords, bookmarks, and generally get into the environment more quickly and easily.
 2. Create a Second Profile in your Edge browser for the Megan Bowen account
+
+## Advanced - Create your own VM for scenarios
+Click the button below to deploy a single Windows 10 Virtual Machine that you can use as part of these training scenarios.  This VM will be deployed in the US East Azure Region and will turn off each day at 7PM (1900) Eastern Standard Time.  You can choose to change the region during deployment, and can change the automatic shutdown after the deployment has completed.
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdmcwee%2Fsci%2Ffasttrack%2Fazuredeploy.json)

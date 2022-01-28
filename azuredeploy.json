@@ -13,17 +13,6 @@
         "Premium_LRS"
       ]
     },
-    "ServerOsVersion": {
-      "type": "string",
-      "defaultValue": "2012-R2-Datacenter",
-      "allowedValues": [
-        "2008-R2-SP1",
-        "2012-Datacenter",
-        "2012-R2-Datacenter",
-        "2016-Datacenter",
-        "2019-Datacenter"
-      ]
-    },
     "ClientOsVersion":{
       "type":"string",
       "defaultValue":"Windows-10-N-x64",
@@ -50,70 +39,14 @@
     "AdminUserName": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": "labadmin"
+      "defaultValue": "cmadmin"
     },
     "AdminPassword": {
       "type": "securestring"
     },
-    "AdServerName": {
-      "type": "string",
-      "minLength": 1,
-      "defaultValue": "ContosoDC1"
-    },
-    "ClientComputerNames":{
-      "type":"array",
-      "defaultValue": ["Victim-PC", "Admin-PC"]
-    },
-    "DomainName":{
+    "WindowsComputerName":{
       "type":"string",
-      "minLength": 1,
-      "defaultValue": "contoso.com"
-    },
-    "gatewayType": {
-      "type": "string",
-      "defaultValue": "Vpn",
-      "allowedValues": [
-          "Vpn",
-          "ExpressRoute"
-      ]
-    },
-    "vpnGatewayGeneration": {
-      "type": "string",
-      "defaultValue": "Generation1"
-    },
-    "vpnType": {
-      "type": "string",
-      "defaultValue": "RouteBased",
-      "allowedValues": [
-          "RouteBased",
-          "PolicyBased"
-      ]
-    },
-    "sku": {
-      "type": "string",
-      "defaultValue": "VpnGw1"
-    },
-    "gatewayRootCert": {
-      "type": "string",
-      "defaultValue":""
-    },
-    "gatewayRootCertName": {
-      "type":"string",
-      "defaultValue":"gatewayrootcert"
-    },
-    "DSCLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
-      },
-      "defaultValue": "https://raw.githubusercontent.com/dmcwee/idamlab/master/AzATP_Lab/AzATP_DSC.zip"
-    },
-    "AdDscFile":{
-      "type": "string",
-      "metadata": {
-        "description": "The DSC settings file for the domain controller"
-      },
-      "defaultValue": "DomainControllerDSC.ps1"
+      "defaultValue": "cmwks1"
     }
   },
   "variables": {
@@ -123,32 +56,20 @@
     "AdvDemoNet": "[concat(resourceGroup().name, '-net')]",
 
     /* Windows OS Publisher Variables */
-    "WindowsServerImagePublisher": "MicrosoftWindowsServer",
-    "WindowsServerImageOffer": "WindowsServer",
     "WindowsClientImagePublisher":"MicrosoftVisualStudio",
     "WindowsClientImageOffer":"Windows",
 
     /* VNet Variables */
     "NetworkPrefix": "10.0.0.0/16",
+    "SubNet1Prefix": "10.0.1.0/24",
     "SubNet1Name": "Subnet-1",
-    "GatewaySubnet": "GatewaySubnet",
-    "SubNet1Prefix": "10.0.24.0/24",
-    "GatewaySubnetPrefix":"10.0.2.0/24",
     "VNetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('AdvDemoNet'))]",
     "SubnetReference": "[concat(variables('VNetId'), '/subnets/', variables('SubNet1Name'))]",
     
-    /* V-Net Gateway Variable */
-    "GatewayName": "[concat(resourceGroup().name, '-GW')]",
-    "GatewayNamePip": "[concat(resourceGroup().name, '-GW-PIP')]",
-    "GWSubnetReference": "[concat(variables('VNetId'), '/subnets/', variables('GatewaySubnet'))]",
 
     /* VM VHD Storage location */
     "VhdContainerName": "vhds",
 
-    /* DC VM Variables */
-    "ADNicName": "[concat(parameters('AdServerName'), '-NIC')]",
-    "ADScheduleName":"[toLower(concat('shutdown-computevm-', parameters('AdServerName')))]",
-    
     // Just a place holder to end the variable list properly
     "lastVariable": "NOT_USED"
   },
@@ -195,239 +116,16 @@
             "properties": {
               "addressPrefix": "[variables('SubNet1Prefix')]"
             }
-          },
-          {
-            "name": "[variables('GatewaySubnet')]",
-            "properties":{
-              "addressPrefix": "[variables('GatewaySubnetPrefix')]"
-            }
           }
         ]
       }
     },
 
-    /*
-    Create NIC for Domain Controller
-    */
-    {
-      "name": "[variables('ADNicName')]",
-      "type": "Microsoft.Network/networkInterfaces",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2018-10-01",
-      "dependsOn": [
-        "[variables('VNetId')]"
-      ],
-      "tags": {
-        "displayName": "ADNic"
-      },
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "10.0.24.4",
-              "subnet": {
-                "id": "[variables('SubnetReference')]"
-              }
-            }
-          }
-        ]
-      }
-    },
-
-    /*
-    Create the Domain Controller
-    */
-    {
-      "name": "[parameters('AdServerName')]",
-      "type": "Microsoft.Compute/virtualMachines",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2018-10-01",
-      "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountName'))]",
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('ADNicName'))]"
-      ],
-      "tags": {
-        "displayName": "ADServer"
-      },
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "[parameters('VmSize')]"
-        },
-        "osProfile": {
-          "computerName": "[parameters('AdServerName')]",
-          "adminUsername": "[parameters('AdminUserName')]",
-          "adminPassword": "[parameters('AdminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('WindowsServerImagePublisher')]",
-            "offer": "[variables('WindowsServerImageOffer')]",
-            "sku": "[parameters('ServerOsVersion')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "AdvDemoDCOSDisk",
-            "vhd": {
-              "uri": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountName')), '2016-01-01').primaryEndpoints.blob, variables('VhdContainerName'), '/', parameters('AdServerName'), '-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          },
-          "dataDisks": [
-          ]
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('ADNicName'))]"
-            }
-          ]
-        }
-      },
-      "resources": [
-        {
-          "name": "Microsoft.Powershell.DSC",
-          "type": "extensions",
-          "location": "[resourceGroup().location]",
-          "apiVersion": "2018-10-01",
-          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', parameters('AdServerName'))]"
-          ],
-          "tags": {
-            "displayName": "ADDSC"
-          },
-          "properties": {
-            "publisher": "Microsoft.Powershell",
-            "type": "DSC",
-            "typeHandlerVersion": "2.9",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              //"modulesUrl":"",
-              //"configurationFunction":"",
-              "configuration": {
-                "url": "[parameters('DSCLocation')]",
-                "script": "[parameters('AdDscFile')]",
-                "Function": "Main"
-              },
-              "configurationArguments": {
-                "domainName":"[parameters('DomainName')]"
-              }
-            },
-            "protectedSettings": {
-              "configurationArguments":{
-                "adminAccount": {
-                  "UserName": "[parameters('AdminUserName')]",
-                  "Password": "[parameters('AdminPassword')]"
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "comments": "",
-      "type": "microsoft.devtestlab/schedules",
-      "name": "[variables('ADScheduleName')]",
-      "apiVersion": "2018-09-15",
-      "location": "[resourceGroup().location]",
-      "scale": null,
-      "properties": {
-          "status": "Enabled",
-          "taskType": "ComputeVmShutdownTask",
-          "dailyRecurrence": {
-              "time": "1900"
-          },
-          "timeZoneId": "Eastern Standard Time",
-          "notificationSettings": {
-              "status": "Disabled",
-              "timeInMinutes": 30
-          },
-          "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('AdServerName'))]"
-      },
-      "dependsOn": [
-          "[resourceId('Microsoft.Compute/virtualMachines', parameters('AdServerName'))]"
-      ]
-  },
-
-    {
-      "name": "[variables('GatewayNamePip')]",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2018-10-01",
-      "dependsOn": [],
-      "tags": {
-        "displayName": "GatewayPublicIP"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic"
-        , "dnsSettings": {
-          "domainNameLabel": "[toLower(variables('GatewayName'))]"
-        }
-      }
-    },
-
-    {
-      "apiVersion": "2019-04-01",
-      "name": "[variables('GatewayName')]",
-      "type": "Microsoft.Network/virtualNetworkGateways",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIPAddresses', variables('GatewayNamePip'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks', variables('AdvDemoNet'))]"
-      ],
-      "tags": {},
-      "properties": {
-          "gatewayType": "[parameters('gatewayType')]",
-          "ipConfigurations": [
-              {
-                  "name": "default",
-                  "properties": {
-                      "privateIPAllocationMethod": "Dynamic",
-                      "subnet": {
-                          "id": "[variables('GWSubnetReference')]"
-                      },
-                      "publicIpAddress": {
-                          "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('GatewayNamePip'))]"
-                      }
-                  }
-              }
-          ],
-          "vpnType": "[parameters('vpnType')]",
-          "vpnGatewayGeneration": "[parameters('vpnGatewayGeneration')]",
-          "sku": {
-              "name": "[parameters('sku')]",
-              "tier": "[parameters('sku')]"
-          },
-          "vpnClientConfiguration": {
-            "vpnClientAddressPool": {
-              "addressPrefixes":["10.10.10.0/24"]
-            },
-            "vpnClientProtocols":[
-              "IkeV2"
-            ],
-            "vpnClientRootCertificates": [
-              //{
-                //"name":"[parameters('gatewayRootCertName')]",
-                //"properties": {
-                //  "publicCertData":"[parameters('gatewayRootCert')]"
-                //}
-              //}
-            ]
-          }
-      }
-    },
     /*
     Create Client NIC
     */
     {
-      "copy": {
-        "name":"ClientNICCopy",
-        "count":"[length(parameters('ClientComputerNames'))]"
-      },
-      "name": "[concat(parameters('ClientComputerNames')[copyIndex()], '-NIC')]",
+      "name": "[concat(parameters('WindowsComputerName'), '-NIC')]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2018-10-01",
@@ -443,7 +141,7 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat('10.0.24.', copyIndex(5))]",
+              "privateIPAddress": "10.0.1.10",
               "subnet": {
                 "id": "[variables('SubnetReference')]"
               }
@@ -456,17 +154,13 @@
     Create Client VM 
     */
     {
-      "copy": {
-        "name": "ClientVMCopy",
-        "count": "[length(parameters('ClientComputerNames'))]"
-      },
-      "name": "[parameters('ClientComputerNames')[copyIndex()]]",
+      "name": "[parameters('WindowsComputerName')]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
       "apiVersion": "2018-10-01",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountName'))]",
-        "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('ClientComputerNames')[copyIndex()], '-NIC') )]"
+        "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('WindowsComputerName'), '-NIC') )]"
       ],
       "tags": {
         "displayName": "Client-VM"
@@ -476,7 +170,7 @@
           "vmSize": "[parameters('VmSize')]"
         },
         "osProfile": {
-          "computerName": "[parameters('ClientComputerNames')[copyIndex()]]",
+          "computerName": "[parameters('WindowsComputerName')]",
           "adminUsername": "[parameters('AdminUserName')]",
           "adminPassword": "[parameters('AdminPassword')]"
         },
@@ -488,7 +182,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat('osdisk-', parameters('ClientComputerNames')[copyIndex()])]",
+            "name": "[concat('osdisk-', parameters('WindowsComputerName'))]",
             "vhd": {
               "uri": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountName')), '2016-01-01').primaryEndpoints.blob, variables('VhdContainerName'), '/', parameters('ClientComputerNames')[copyIndex()], '-osdisk.vhd')]"
             },
@@ -499,7 +193,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('ClientComputerNames')[copyIndex()], '-NIC') )]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('WindowsComputerName'), '-NIC') )]"
             }
           ]
         }
@@ -507,12 +201,8 @@
       "resources": []
     },
     {
-     "copy": {
-       "name": "schedulecopy",
-       "count":"[length(parameters('ClientComputerNames'))]"
-     },
      "type": "microsoft.devtestlab/schedules",
-     "name": "[toLower(concat('shutdown-computevm-', parameters('ClientComputerNames')[copyIndex()]))]",
+     "name": "[toLower(concat('shutdown-computevm-', parameters('WindowsComputerName')))]",
      "apiVersion": "2018-09-15",
      "location": "[resourceGroup().location]",
      "scale": null,
@@ -527,10 +217,10 @@
              "status": "Disabled",
              "timeInMinutes": 30
          },
-         "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('ClientComputerNames')[copyIndex()])]"
+         "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('WindowsComputerName'))]"
      },
      "dependsOn": [
-         "[resourceId('Microsoft.Compute/virtualMachines', parameters('ClientComputerNames')[copyIndex()])]"
+         "[resourceId('Microsoft.Compute/virtualMachines', parameters('WindowsComputerName'))]"
      ]
     }
   ],
