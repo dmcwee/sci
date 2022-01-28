@@ -54,17 +54,11 @@ The OpenHack environment is setup shortly before the delivery of the event. Clou
 
 - Be able to upload and analyze a Cloud Discovery snapshot report.
 
-- Configure integration with Azure Sentinel.
-
 - Enable information protection of files in SaaS apps.
 
 - Enable and configure the integration between Microsoft Cloud App Security features and Microsoft Defender for Endpoint.
 
-- Enable the integration between Microsoft Cloud App Security and Sentinel.
-
 - Configure Microsoft Defender for Endpoint to send analysis signals to Microsoft Cloud App Security.
-
-- Add Azure as an app connector.
 
 ## References
 
