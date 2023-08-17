@@ -29,7 +29,11 @@ Challenges are designed to be similar to a customer's scenario.  The material sh
         1. Initial provisioning of tenant
         1. Activation of Lab
     1. Licensing
-    1. Defender for Office
+    1. MDO
+        1. Attachment
+        1. Phishing
+        1. Spam
+        1. Common Attachment Types
 1. **Challenge 3**
     1. Compliance Manager
         1. Assign Templates
